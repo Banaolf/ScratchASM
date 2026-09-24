@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>ScratchASM: blocks to x86-64 NASM</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23855cd6'/%3E%3Crect x='6' y='7' width='20' height='7' rx='2' fill='%23ffbf00'/%3E%3Crect x='6' y='17' width='14' height='7' rx='2' fill='%2359c059'/%3E%3C/svg%3E">
+  <script src="theme-init.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-mode="blocks">
+  <header id="topbar">
+    <div class="brand">ScratchASM</div>
+
+    <div class="segmented" id="mode-switch" role="group" aria-label="Editing mode">
+      <button type="button" data-mode="blocks" aria-pressed="true" title="Build programs from blocks">Blocks</button>
+      <button type="button" data-mode="code" aria-pressed="false" title="Write NASM by hand (can be assembled, not run)">Code</button>
+    </div>
+
+    <div class="top-actions">
+      <button type="button" id="btn-file" class="btn" aria-haspopup="menu">File</button>
+      <span id="doc-title" title="Current project"></span>
+      <select id="examples" class="btn" aria-label="Load an example"><option value="">Examples</option></select>
+      <button type="button" id="btn-clean" class="btn blocks-only" title="Arrange scripts in a column">Clean up</button>
+      <input type="file" id="file-open" accept=".json,.asm,.nasm,.s,.txt,application/json,text/plain" hidden>
+    </div>
+
+    <div class="run-actions">
+      <button type="button" id="btn-run" class="btn success" title="Assemble, link and run (Ctrl+Enter)">&#9654; Run</button>
+      <button type="button" id="btn-stop" class="btn danger" disabled>&#9632; Stop</button>
+      <button type="button" id="btn-check" class="btn" title="Assemble and link without running (Ctrl+Enter in Code mode)">Assemble</button>
+      <button type="button" id="btn-elf" class="btn" title="Download the linked x86-64 ELF executable">Download ELF</button>
+    </div>
+
+    <div class="account-actions">
+      <button type="button" id="btn-theme" class="btn icon" aria-label="Theme"></button>
+      <button type="button" id="btn-account" class="btn" aria-haspopup="menu">Sign in</button>
+    </div>
+  </header>
+
+  <div id="banner" hidden></div>
+
+  <main id="layout">
+    <nav id="cats" class="blocks-only" aria-label="Block categories"></nav>
+    <aside id="palette" class="blocks-only" aria-label="Block palette"></aside>
+    <section id="workspace" class="blocks-only" aria-label="Scripts"><div id="canvas"></div></section>
+    <section id="codeview" class="code-only" aria-label="NASM source"></section>
+
+    <section id="side">
+      <div id="problems" hidden></div>
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" data-tab="output" class="active">Output</button>
+        <button type="button" role="tab" data-tab="asm" class="blocks-only">NASM</button>
+        <button type="button" role="tab" data-tab="stdin" class="blocks-only">Input</button>
+      </div>
+
+      <div class="panel" id="tab-output">
+        <pre id="output"></pre>
+        <div id="status"></div>
+      </div>
+
+      <div class="panel" id="tab-asm" hidden>
+        <div class="panel-bar">
+          <button type="button" class="btn small" id="btn-copy-asm">Copy</button>
+          <button type="button" class="btn small" id="btn-dl-asm">Download .asm</button>
+          <button type="button" class="btn small" id="btn-to-code" title="Copy this NASM into a Code-mode file you can edit by hand">Edit as code</button>
+          <span class="dim" id="asm-stats"></span>
+        </div>
+        <pre id="asm-view" class="code"></pre>
+      </div>
+
+      <div class="panel" id="tab-stdin" hidden>
+        <label class="panel-bar" for="stdin">Text fed to the program's stdin</label>
+        <textarea id="stdin" spellcheck="false" placeholder="e.g.  20 22"></textarea>
+      </div>
+    </section>
+  </main>
+
+  <div id="drag-layer"></div>
+  <div id="ctx-menu" class="menu" hidden></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
